@@ -33,7 +33,47 @@ To develop a C program using the static storage class in a function with a param
 ### Step 8:
   Stop
 # Program:
+~~~
+#include <stdio.h>
+
+// Step 3b: Function definition
+void display(int n)
+{
+    // Static variable retains its value across function calls
+    static float base = 100.25;
+    float sum;
+
+    // Step 6a: Calculate sum
+    sum = base + n;
+
+    // Step 6b: Display the sum
+    printf("Sum of base and input: %.2f\n", sum);
+
+    // Step 6c: Increment base
+    base += 100.25;
+}
+
+int main()
+{
+    int input;
+
+    // Step 4: Read integer from user
+    printf("Enter an integer: ");
+    scanf("%d", &input);
+
+    // Step 5: Call display function five times
+    for (int i = 0; i < 5; i++)
+    {
+        display(input);
+    }
+
+    return 0;
+}
+
+~~~
 # Output:
+<img width="429" height="365" alt="530532194-d15fb597-3c5e-439f-8d96-681bbbe5c3dd" src="https://github.com/user-attachments/assets/97a9de70-0952-4196-818f-0e15fac9d1a8" />
+
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
@@ -79,7 +119,84 @@ Thus, the program was implemented and executed successfully, and the required ou
 ### Step 11:
   Stop
 # Program:
+~~~
+#include <stdio.h>
+
+// Step 3: Arithmetic function definitions
+int add(int a, int b)
+{
+    return a + b;
+}
+
+int subtract(int a, int b)
+{
+    return a - b;
+}
+
+int multiply(int a, int b)
+{
+    return a * b;
+}
+
+int divide(int a, int b)
+{
+    return a / b;
+}
+
+int main()
+{
+    int num1, num2, choice, result;
+    // Step 4: Function pointer declaration
+    int (*operation)(int, int) = NULL;
+
+    // Step 5: Input two integers
+    printf("Enter two integers: ");
+    scanf("%d %d", &num1, &num2);
+
+    // Step 6: Display menu
+    printf("Choose an operation:\n");
+    printf("1. Add\n2. Subtract\n3. Multiply\n4. Divide\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+    // Step 8: Assign function pointer based on choice
+    switch (choice)
+    {
+    case 1:
+        operation = add;
+        break;
+    case 2:
+        operation = subtract;
+        break;
+    case 3:
+        operation = multiply;
+        break;
+    case 4:
+        if (num2 == 0)
+        {
+            printf("Error: Division by zero!\n");
+            return 1;
+        }
+        operation = divide;
+        break;
+    default:
+        printf("Invalid choice!\n");
+        return 1;
+    }
+
+    // Step 9: Call function using pointer
+    result = operation(num1, num2);
+
+    // Step 10: Display result
+    printf("Result: %d\n", result);
+
+    return 0;
+}
+
+~~~
 # Output:
+<img width="409" height="419" alt="530532382-9e46d75f-9e75-41e7-a37e-0af86e4483d6" src="https://github.com/user-attachments/assets/e8450538-0b1e-44af-9cc8-05e0c55cd1b2" />
+
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
@@ -123,7 +240,72 @@ Thus, the program was implemented and executed successfully, and the required ou
 ### Step 10:
   Stop
 # Program:
+~~~
+#include <stdio.h>
+
+// Step 3: Define structure for employee
+struct employee {
+    int eno;
+    char ename[50];
+    float salary;
+};
+
+int main() {
+    int n, i;
+    float high;
+
+    // Step 4 & 5: Input number of employees
+    printf("Enter number of employees: ");
+    scanf("%d", &n);
+
+    struct employee emp[n];
+
+    // Step 6: Input employee details
+    for(i = 0; i < n; i++) {
+        printf("\nEnter details for employee %d:\n", i + 1);
+
+        printf("Employee Number: ");
+        scanf("%d", &emp[i].eno);
+
+        printf("Employee Name: ");
+        getchar(); // To consume leftover newline
+        fgets(emp[i].ename, sizeof(emp[i].ename), stdin);
+
+        // Remove newline character from fgets
+        size_t len = 0;
+        while(emp[i].ename[len] != '\0') len++;
+        if(emp[i].ename[len-1] == '\n') emp[i].ename[len-1] = '\0';
+
+        printf("Employee Salary: ");
+        scanf("%f", &emp[i].salary);
+    }
+
+    // Step 7: Initialize highest salary
+    high = emp[0].salary;
+
+    // Step 8: Find highest salary
+    for(i = 1; i < n; i++) {
+        if(emp[i].salary > high) {
+            high = emp[i].salary;
+        }
+    }
+
+    // Step 9: Display employee(s) with highest salary
+    printf("\nEmployee(s) with highest salary %.2f:\n", high);
+    for(i = 0; i < n; i++) {
+        if(emp[i].salary == high) {
+            printf("Employee Number: %d\n", emp[i].eno);
+            printf("Employee Name: %s\n", emp[i].ename);
+            printf("Employee Salary: %.2f\n\n", emp[i].salary);
+        }
+    }
+
+    return 0;
+}
+~~~
 # Output:
+<img width="510" height="648" alt="530532710-3fb974a3-f26a-41ea-b4fc-7c289d8c3011" src="https://github.com/user-attachments/assets/b17fae58-fff0-4e68-931c-fbe4adeaaa32" />
+
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
@@ -166,7 +348,46 @@ Thus, the program was implemented and executed successfully, and the required ou
 ### Step 9:
   Stop
 # Program:
+~~~
+#include <stdio.h>
+struct date {
+    int c_date, c_month, c_year;
+    int b_date, b_month, b_year; 
+    int cal_date, cal_month, cal_year;
+};
+void findAge(struct date *d) {
+    int month[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    if(d->b_date > d->c_date) {
+        d->c_date += month[(d->c_month - 2 + 12) % 12]; 
+        d->c_month -= 1;
+    }
+    if(d->b_month > d->c_month) {
+        d->c_year -= 1;
+        d->c_month += 12;
+    }
+    d->cal_date = d->c_date - d->b_date;
+    d->cal_month = d->c_month - d->b_month;
+    d->cal_year = d->c_year - d->b_year;
+}
+
+int main() {
+    struct date d;
+    printf("Enter current date (DD MM YYYY): ");
+    scanf("%d %d %d", &d.c_date, &d.c_month, &d.c_year);
+
+    printf("Enter birth date (DD MM YYYY): ");
+    scanf("%d %d %d", &d.b_date, &d.b_month, &d.b_year);
+    findAge(&d);
+    printf("\nPresent Age: %d years, %d months, %d days\n",
+           d.cal_year, d.cal_month, d.cal_date);
+
+    return 0;
+}
+
+~~~
 # Output:
+<img width="557" height="420" alt="530533398-1f89410b-a197-4e49-8b87-d9de6af91b29" src="https://github.com/user-attachments/assets/14bd61ba-d2a3-456e-ac52-5270606abeaf" />
+
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
@@ -202,8 +423,43 @@ Thus, the program was implemented and executed successfully, and the required ou
 ### Step 10:
   Stop
 # Program:
+~~~
+#include <stdio.h>
+
+// Step 3: Define a union
+union abc {
+    int a;
+    char b;
+};
+
+int main() {
+    // Step 4: Declare union variable
+    union abc var;
+
+    // Step 5: Declare pointer to union
+    union abc *ptr;
+
+    // Step 6: Assign address of var to ptr
+    ptr = &var;
+
+    // Step 7: Store an integer value
+    var.a = 90;
+
+    // Step 8: Print integer value using pointer
+    printf("Integer value: %d\n", ptr->a);
+
+    // Step 9: Print character value using pointer
+    printf("Character value: %c\n", ptr->b);
+
+    return 0;
+}
+
+~~~
 # Output:
+<img width="499" height="292" alt="530533487-8feff9ad-2dd8-4e84-9e32-329a8fe494ff" src="https://github.com/user-attachments/assets/2f7b13a1-8d3e-42fd-bf9f-13c44e313d27" />
+
 # Result: 
+Thus, the program was implemented and executed successfully, and the required output was obtained.
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
 
